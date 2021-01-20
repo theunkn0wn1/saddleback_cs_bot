@@ -26,12 +26,12 @@ class CapsRole(commands.RoleConverter):
             # sanity check: are we even configured to manage this roll?
             logger.warning("someone tried request a roll this command isn't allowed to give")
             # bail out.
-            return await ctx.reply("Cannot comply: not authorized.")
+            return await ctx.reply("Cannot comply: unknown roll or not authorized.")
         return await super().convert(ctx, argument.upper())
 
 
 @commands.command(
-    name="role-new",
+    name="role",
 )
 async def role(ctx: commands.Context, requested_role: CapsRole):
     requested_role: Role  # its actually this type, not the converter type.
@@ -46,3 +46,12 @@ async def role(ctx: commands.Context, requested_role: CapsRole):
         logger.debug("assigning role {} to user {}", requested_role, ctx.author)
         await ctx.author.add_roles(requested_role, reason="roll bot invocation")
         await ctx.reply(f"{ctx.author.mention} added to {requested_role.name}")
+
+
+@commands.command(name="roles")
+async def roles(ctx: commands.Context):
+    ctx.bot: "RollHelperClient"  # again, its actually this type, not what the annotation says.
+
+    await ctx.reply(
+        f"valid roles (case insensitive) :: {', '.join(ctx.bot.alias_mapping.keys())}".casefold()
+    )

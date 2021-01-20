@@ -7,7 +7,7 @@ from loguru import logger
 
 from discord_university.config import ConfigurationRoot
 
-from discord_university.commands.cmd_roll import role as cmd_role
+from discord_university.commands.cmd_roll import role as cmd_role, roles as cmd_roles
 
 
 class RollHelperClient(Bot):
@@ -27,6 +27,7 @@ class RollHelperClient(Bot):
 
         # hook in commands
         self.add_command(cmd_role)
+        self.add_command(cmd_roles)
 
     async def on_ready(self):
         logger.info("bot ready. we are user {} in guilds {}", self.user, self.guilds)
