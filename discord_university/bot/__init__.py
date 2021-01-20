@@ -1,13 +1,12 @@
-from typing import Optional, Dict
+from typing import Optional
 
-import discord
-from discord import Guild, Role
+from discord import Guild
 from discord.ext.commands import Bot
 from loguru import logger
 
-from discord_university.config import ConfigurationRoot
-
-from discord_university.commands.cmd_roll import role as cmd_role, roles as cmd_roles
+from ..commands.cmd_roll import role as cmd_role, roles as cmd_roles
+from ..config import ConfigurationRoot
+from ..commands.cmd_version import cmd_version
 
 
 class RollHelperClient(Bot):
@@ -28,6 +27,7 @@ class RollHelperClient(Bot):
         # hook in commands
         self.add_command(cmd_role)
         self.add_command(cmd_roles)
+        self.add_command(cmd_version)
 
     async def on_ready(self):
         logger.info("bot ready. we are user {} in guilds {}", self.user, self.guilds)
