@@ -15,7 +15,7 @@ def run(path: str):
     logger.info("loaded configuration from {}", path)
 
     logger.trace("spawning client...")
-    client = RollHelperClient(configuration=config)
+    client = RollHelperClient(configuration=config, command_prefix=config.command_prefix)
 
     logger.info("spawning discord client....")
     client.run(config.secrets.token)

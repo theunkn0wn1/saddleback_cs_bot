@@ -21,10 +21,7 @@ def add_roll(path: bytes, name, alias):
     if not alias:
         alias = [name]
 
-    roll = Roll(
-        name=name,
-        aliases=list(alias)
-    )
+    roll = Roll(name=name, aliases=list(alias))
     click.confirm(f"creating roll {roll!r}. This look about right?", abort=True)
 
     logger.trace("user confirmed generation. loading config....")

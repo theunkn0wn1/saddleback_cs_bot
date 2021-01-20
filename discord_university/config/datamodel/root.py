@@ -17,3 +17,4 @@ class ConfigurationRoot:
         validator=attr.validators.optional(attr.validators.instance_of(Secrets))
     )
     guild: int  # TODO: validator
+    command_prefix: str = attr.ib(default="!", validator=attr.validators.instance_of(str))
