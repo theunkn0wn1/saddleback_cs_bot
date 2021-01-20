@@ -12,21 +12,22 @@ class CapsRole(commands.RoleConverter):
     """ cast the role to ALLCAPS before converting it to a discord.role"""
 
     async def convert(self, ctx, argument):
-        ctx.bot: "RollHelperClient"
+        ctx.bot: "RollHelperClient"   # type is too dynamic to determine statically without this
         argument = argument.upper()
         # resolve aliases
-        if argument in ctx.bot.alias_mapping:
-            logger.debug(
-                "role {!r} found in alias map, replacing with {}",
-                argument,
-                ctx.bot.alias_mapping[argument],
-            )
-            argument = ctx.bot.alias_mapping[argument]
-        else:
+        if argument not in ctx.bot.alias_mapping:
             # sanity check: are we even configured to manage this roll?
             logger.warning("someone tried request a roll this command isn't allowed to give")
             # bail out.
             return await ctx.reply("Cannot comply: unknown roll or not authorized.")
+
+        logger.debug(
+            "role {!r} found in alias map, replacing with {}",
+            argument,
+            ctx.bot.alias_mapping[argument],
+        )
+        argument = ctx.bot.alias_mapping[argument]
+
         return await super().convert(ctx, argument.upper())
 
 
@@ -41,11 +42,11 @@ async def role(ctx: commands.Context, requested_role: CapsRole):
     if requested_role in ctx.author.roles:
         logger.debug("user has the requested role, remove it!")
         await ctx.author.remove_roles(requested_role, reason="roll bot invocation")
-        await ctx.reply(f"{ctx.author.mention} removed from {requested_role.name}")
-    else:
-        logger.debug("assigning role {} to user {}", requested_role, ctx.author)
-        await ctx.author.add_roles(requested_role, reason="roll bot invocation")
-        await ctx.reply(f"{ctx.author.mention} added to {requested_role.name}")
+        return await ctx.reply(f"{ctx.author.mention} removed from {requested_role.name}")
+
+    logger.debug("assigning role {} to user {}", requested_role, ctx.author)
+    await ctx.author.add_roles(requested_role, reason="roll bot invocation")
+    await ctx.reply(f"{ctx.author.mention} added to {requested_role.name}")
 
 
 @commands.command(name="roles")
