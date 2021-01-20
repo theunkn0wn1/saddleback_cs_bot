@@ -26,7 +26,7 @@ The config is split into three logical chunks:
 
 - `token` - discord t0k3n.
 
-#Rolls
+# Rolls
 
 Each entry in `Rolls` consists of two parts:
 
