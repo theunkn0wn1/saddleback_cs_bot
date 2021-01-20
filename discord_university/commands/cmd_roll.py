@@ -12,7 +12,7 @@ class CapsRole(commands.RoleConverter):
     """ cast the role to ALLCAPS before converting it to a discord.role"""
 
     async def convert(self, ctx, argument):
-        ctx.bot: "RollHelperClient"   # type is too dynamic to determine statically without this
+        ctx.bot: "RollHelperClient"  # type is too dynamic to determine statically without this
         argument = argument.upper()
         # resolve aliases
         if argument not in ctx.bot.alias_mapping:

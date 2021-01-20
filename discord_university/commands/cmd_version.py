@@ -1,11 +1,12 @@
-from importlib import metadata
+try:
+    from importlib import metadata
+except ImportError:
+    import importlib_metadata as metadata
 
 from discord.ext.commands import command, Context
 
 
-@command(
-    name="version"
-)
+@command(name="version")
 async def cmd_version(ctx: Context):
     """ Fetches the current bot version. """
     try:

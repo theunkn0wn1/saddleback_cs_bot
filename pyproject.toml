@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "discord_university"
-version = "2.0.1"
+version = "2.0.2"
 description = ""
 authors = ["Joshua Salzedo <joshuasalzedo@gmail.com>"]
 
@@ -12,6 +12,7 @@ attrs = "^20.3.0"
 cattrs = "^1.1.2"
 click = "^7.1.2"
 loguru = "^0.5.3"
+importlib-metadata = "^3.4.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
