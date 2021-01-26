@@ -25,8 +25,7 @@ class CapsRole(commands.RoleConverter):
                 f"{ctx.author} @{ctx.author.id} tried request a roll this command isn't "
                 f"allowed to give"
             )
-            # bail out.
-            return await ctx.reply("Cannot comply.")
+            return None
 
         logger.debug(
             "role {!r} found in alias map, replacing with {}",
