@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "discord_university"
-version = "2.0.2"
+version = "2.0.5"
 description = ""
 authors = ["Joshua Salzedo <joshuasalzedo@gmail.com>"]
 

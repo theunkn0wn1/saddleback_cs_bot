@@ -13,13 +13,19 @@ class CapsRole(commands.RoleConverter):
 
     async def convert(self, ctx, argument):
         ctx.bot: "RollHelperClient"  # type is too dynamic to determine statically without this
+
+        if ctx.author.id in ctx.bot.roll_helper_config.secrets.blacklist.users:
+            return await ctx.reply("Cannot comply: unauthorized.")
+
         argument = argument.upper()
         # resolve aliases
         if argument not in ctx.bot.alias_mapping:
             # sanity check: are we even configured to manage this roll?
-            logger.warning("someone tried request a roll this command isn't allowed to give")
-            # bail out.
-            return await ctx.reply("Cannot comply: unknown roll or not authorized.")
+            logger.warning(
+                f"{ctx.author} @{ctx.author.id} tried request a roll this command isn't "
+                f"allowed to give"
+            )
+            return None
 
         logger.debug(
             "role {!r} found in alias map, replacing with {}",
@@ -38,6 +44,8 @@ async def role(ctx: commands.Context, requested_role: CapsRole):
     requested_role: Role  # its actually this type, not the converter type.
     logger.debug("!role invoked with ctx: {} and requested_role := {!r}", ctx, requested_role)
     ctx.bot: "RollHelperClient"  # again, its actually this type, not what the annotation says.
+    if ctx.author.id in ctx.bot.roll_helper_config.secrets.blacklist.users or not requested_role:
+        return await ctx.reply("Cannot comply: unauthorized.")
 
     if requested_role in ctx.author.roles:
         logger.debug("user has the requested role, remove it!")
