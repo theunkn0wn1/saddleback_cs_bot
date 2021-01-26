@@ -1,10 +1,11 @@
-from typing import Set
+from typing import Set, List
 
 import attr
 
 
+@attr.define
 class Blacklist:
-    users: Set[int] = attr.ib(factory=list)
+    users: List[int] = attr.ib(factory=list)
 
 
 @attr.define

@@ -13,6 +13,10 @@ class CapsRole(commands.RoleConverter):
 
     async def convert(self, ctx, argument):
         ctx.bot: "RollHelperClient"  # type is too dynamic to determine statically without this
+
+        if ctx.author.id in ctx.bot.roll_helper_config.secrets.blacklist.users:
+            return await ctx.reply("Cannot comply: unauthorized.")
+
         argument = argument.upper()
         # resolve aliases
         if argument not in ctx.bot.alias_mapping:
