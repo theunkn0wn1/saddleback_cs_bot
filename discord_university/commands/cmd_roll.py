@@ -44,7 +44,7 @@ async def role(ctx: commands.Context, requested_role: CapsRole):
     requested_role: Role  # its actually this type, not the converter type.
     logger.debug("!role invoked with ctx: {} and requested_role := {!r}", ctx, requested_role)
     ctx.bot: "RollHelperClient"  # again, its actually this type, not what the annotation says.
-    if ctx.author.id in ctx.bot.roll_helper_config.secrets.blacklist.users:
+    if ctx.author.id in ctx.bot.roll_helper_config.secrets.blacklist.users or not requested_role:
         return await ctx.reply("Cannot comply: unauthorized.")
 
     if requested_role in ctx.author.roles:
