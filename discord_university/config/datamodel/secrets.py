@@ -11,4 +11,4 @@ class Blacklist:
 @attr.define
 class Secrets:
     token: str
-    blacklist: Blacklist
+    blacklist: Blacklist = attr.ib(factory=Blacklist)
